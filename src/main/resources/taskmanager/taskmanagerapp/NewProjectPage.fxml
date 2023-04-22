@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.CreateNewProjectController">
+   <children>
+      <TextField fx:id="projectTitle" layoutX="193.0" layoutY="45.0" prefHeight="46.0" prefWidth="376.0" />
+      <Label layoutX="66.0" layoutY="56.0" text="Title">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="66.0" layoutY="124.0" prefHeight="25.0" prefWidth="109.0" text="Description">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="projectDesc" layoutX="193.0" layoutY="124.0" prefHeight="115.0" prefWidth="376.0" />
+      <DatePicker fx:id="projectDeadline" layoutX="193.0" layoutY="264.0" prefHeight="25.0" prefWidth="376.0" />
+      <Label layoutX="66.0" layoutY="264.0" prefHeight="25.0" prefWidth="109.0" text="Deadline">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="addProjectAddButton" layoutX="300.0" layoutY="321.0" mnemonicParsing="false" onAction="#addProject" prefHeight="46.0" prefWidth="132.0" text="ADD PROJECT" />
+   </children>
+</AnchorPane>
