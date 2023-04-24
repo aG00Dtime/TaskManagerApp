@@ -5,12 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TaskPageController implements Initializable {
@@ -73,7 +77,6 @@ public class TaskPageController implements Initializable {
         projectId = id;
         refreshTaskList();
 
-
     }
 
     public void createTask() {
@@ -108,7 +111,6 @@ public class TaskPageController implements Initializable {
         }
 
     }
-
 
     public  ObservableList<Task> getTasks() {
 
@@ -146,7 +148,6 @@ public class TaskPageController implements Initializable {
     }
 
 
-
     public void refreshTaskList(){
 
         ObservableList<Task> projectTasks = getTasks();
@@ -154,12 +155,8 @@ public class TaskPageController implements Initializable {
 
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
 
         taskTableName.setCellValueFactory(new PropertyValueFactory<Task, String>("title"));
         taskTableDescription.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
@@ -169,8 +166,94 @@ public class TaskPageController implements Initializable {
         taskTableAssigned.setCellValueFactory(new PropertyValueFactory<Task, String>("assigned"));
         taskTableStatus.setCellValueFactory(new PropertyValueFactory<Task, String>("status"));
 
+        // custom Actions buttons
+        Callback<TableColumn<Task, String>, TableCell<Task, String>> cellFactory = (param) -> new TableCell<Task, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+
+                    final Button editButton = new Button("Manage");
+                    final Button deleteButton = new Button("Delete");
+
+                    // trigger edit
+                    editButton.setOnAction(event -> {
 
 
+                        // open the editing page and
+                        Task task = getTableView().getItems().get(getIndex());
+
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditTaskPage.fxml"));
+
+                        Parent parent;
+                        try {
+                            parent = fxmlLoader.load();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        //DONE: pass project details to page
+
+                        // pass values
+                        EditTaskPageController editTask = fxmlLoader.getController();
+                        try {
+                            editTask.fillFields(
+                                    task.getId(),
+                                    task.getTitle(),
+                                    task.getDescription(),
+                                    task.getDeadline(),
+                                    task.getAssigned(),
+                                    task.getStatus());
+
+
+                            editTask.setMemberList(projectId);
+
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        Stage stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Edit Task details");
+                        stage.setScene(new Scene(parent, 700, 500));
+//                           stage.initStyle(StageStyle.UTILITY);\
+                        stage.centerOnScreen();
+                        stage.show();
+
+
+                    });
+                    //trigger delete
+                    deleteButton.setOnAction(event -> {
+
+
+
+                                Task task = getTableView().getItems().get(getIndex());
+
+
+
+                            }
+                    );
+
+                    //add new buttons to cell
+                    HBox actionButtons = new HBox(editButton,deleteButton);
+                    actionButtons.setStyle("-fx-alignment:center");
+                    HBox.setMargin(deleteButton, new Insets(2, 2, 0, 3));
+                    HBox.setMargin(editButton, new Insets(2, 3, 0, 2));
+
+                    setGraphic(actionButtons);
+                    setText(null);
+                }
+
+            }
+
+        };
+
+        // add custom buttons to action cell
+        taskTableActions.setCellFactory(cellFactory);
 
 
     }

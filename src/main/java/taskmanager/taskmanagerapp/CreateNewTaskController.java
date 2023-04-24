@@ -39,7 +39,6 @@ public class CreateNewTaskController {
         String desc = taskDescription.getText();
         String date = String.valueOf(taskDeadline.getValue());
 
-
         // check text fields
         if (title.isEmpty() || desc.isEmpty() || date.isEmpty()) {
 
@@ -68,18 +67,15 @@ public class CreateNewTaskController {
 
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setHeaderText("Success!");
-            a.setContentText("New Project Added");
+            a.setContentText("New Task Added");
             a.show();
 
             // clear fields
-
             taskTitle.clear();
             taskDescription.clear();
             taskDeadline.setValue(null);
 
-
         }
-
 
     }
 
