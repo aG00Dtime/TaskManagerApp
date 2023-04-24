@@ -2,11 +2,9 @@ package taskmanager.taskmanagerapp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,7 +39,7 @@ public class LoginController {
         // check user credentials in db // not being encrypted atm
         // TODO: add hash  in db and form
 
-        if (!FormPassword.isEmpty() && !FormUsername.isEmpty()){
+        if (!FormPassword.isEmpty() && !FormUsername.isEmpty()) {
 
             // connect to db
             Connection connection = DBConnection.Connector();
@@ -57,18 +55,16 @@ public class LoginController {
             if (result.next()) {
 
                 Main main = new Main();
-                main.changeScene("ProjectPage.fxml","Projects",920,710);
+                main.changeScene("ProjectPage.fxml", "Projects", 920, 710);
                 System.out.println(result.getString("username"));
                 connection.close();
 
 
-            }
-            else {
+            } else {
                 lgStatus.setText("Incorrect Login Details.");
             }
 
-        }
-        else {
+        } else {
             lgStatus.setText("Ensure all fields are filled in.");
         }
 

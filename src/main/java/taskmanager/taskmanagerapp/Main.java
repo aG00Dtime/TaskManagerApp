@@ -13,6 +13,11 @@ public class Main extends Application {
 
     // dummy stage to facilitate scene changing
     private static Stage stage;
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
@@ -20,12 +25,13 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
         primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root,480,350));
+        primaryStage.setScene(new Scene(root, 480, 350));
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
+
     //change the primary stage's scene
-    public void changeScene (String fxml,String title,Integer width,Integer height) throws IOException{
+    public void changeScene(String fxml, String title, Integer width, Integer height) throws IOException {
 
         //load fxml of new scene to change view
         Parent pane = FXMLLoader.load(getClass().getResource(fxml));
@@ -35,8 +41,5 @@ public class Main extends Application {
         stage.setWidth(width);
         stage.centerOnScreen();
 
-    }
-    public static void main(String[] args) {
-        launch();
     }
 }

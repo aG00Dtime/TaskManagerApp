@@ -4,19 +4,15 @@ import javafx.scene.control.Button;
 
 public class Project {
 
-    private String title;
-    private String description;
+    private final String title;
+    private final String description;
 
-    private String created;
-    private String deadline;
+    private final String created;
+    private final String deadline;
 
-    private String status;
+    private final String status;
 
-    private Integer id;
-
-    private Button editButton;
-    private Button deleteButton;
-
+    private final Integer id;
 
 
 
@@ -27,14 +23,14 @@ public class Project {
         this.created = created;
         this.deadline = deadline;
         this.status = status;
-        this.editButton = new Button("Edit");
-        this.deleteButton = new Button("Delete");
+
     }
 
-    public Integer getId(){
+    public Integer getId() {
 
         return id;
     }
+
     public String getTitle() {
 
         return title;
@@ -60,11 +56,4 @@ public class Project {
         return status;
     }
 
-    public Button getEditButton() {
-        return editButton;
-    }
-
-    public Button getDeleteButton() {
-        return deleteButton;
-    }
 }

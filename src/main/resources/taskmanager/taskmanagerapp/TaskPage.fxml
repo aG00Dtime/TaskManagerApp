@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="549.0" prefWidth="947.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.TaskPageController">
+   <children>
+      <TableView fx:id="taskTable" layoutX="28.0" layoutY="145.0" prefHeight="376.0" prefWidth="891.0">
+        <columns>
+          <TableColumn fx:id="taskTableName" prefWidth="98.0" text="Name" />
+            <TableColumn fx:id="taskTableDescription" prefWidth="118.0" text="Description" />
+            <TableColumn fx:id="taskTableCreated" prefWidth="90.0" text="Created" />
+            <TableColumn fx:id="taskTableDeadline" prefWidth="101.0" text="Deadline" />
+            <TableColumn fx:id="taskTableUpdated" prefWidth="107.0" text="Updated" />
+            <TableColumn fx:id="taskTableAssigned" prefWidth="121.0" text="Assigned" />
+            <TableColumn fx:id="taskTableStatus" prefWidth="104.0" text="Status" />
+            <TableColumn fx:id="taskTableActions" prefWidth="151.0" text="Actions" />
+        </columns>
+      </TableView>
+      <Button fx:id="addTask" layoutX="28.0" layoutY="27.0" mnemonicParsing="false" onAction="#createTask" prefHeight="48.0" prefWidth="106.0" style="-fx-background-color: #03203C;" text="+ ADD TASK" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label layoutX="460.0" layoutY="2.0" text="Tasks">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="taskSearchField" layoutX="28.0" layoutY="87.0" prefHeight="48.0" prefWidth="764.0" />
+      <Button fx:id="refreshTasks" layoutX="152.0" layoutY="27.0" mnemonicParsing="false" onAction="#refreshTaskList" prefHeight="48.0" prefWidth="106.0" style="-fx-background-color: #03203C;" text="REFRESH" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="taskSearch" layoutX="813.0" layoutY="87.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="106.0" style="-fx-background-color: #03203C;" text="SEARCH" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

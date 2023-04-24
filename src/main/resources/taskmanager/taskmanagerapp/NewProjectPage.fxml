@@ -8,26 +8,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.CreateNewProjectController">
+<AnchorPane prefHeight="400.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.CreateNewProjectController">
    <children>
-      <TextField fx:id="projectTitle" layoutX="193.0" layoutY="45.0" prefHeight="46.0" prefWidth="376.0" />
-      <Label layoutX="66.0" layoutY="56.0" text="Title">
+      <TextField fx:id="projectTitle" layoutX="137.0" layoutY="46.0" prefHeight="46.0" prefWidth="376.0" />
+      <Label layoutX="20.0" layoutY="57.0" text="Title">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="66.0" layoutY="124.0" prefHeight="25.0" prefWidth="109.0" text="Description">
+      <Label layoutX="20.0" layoutY="144.0" prefHeight="25.0" prefWidth="109.0" text="Description">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TextArea fx:id="projectDesc" layoutX="193.0" layoutY="124.0" prefHeight="115.0" prefWidth="376.0" />
-      <DatePicker fx:id="projectDeadline" layoutX="193.0" layoutY="264.0" prefHeight="25.0" prefWidth="376.0" />
-      <Label layoutX="66.0" layoutY="264.0" prefHeight="25.0" prefWidth="109.0" text="Deadline">
+      <TextArea fx:id="projectDesc" layoutX="137.0" layoutY="111.0" prefHeight="115.0" prefWidth="376.0" />
+      <DatePicker fx:id="projectDeadline" layoutX="137.0" layoutY="247.0" prefHeight="35.0" prefWidth="132.0" />
+      <Label layoutX="20.0" layoutY="252.0" prefHeight="25.0" prefWidth="109.0" text="Deadline">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="addProjectAddButton" layoutX="300.0" layoutY="321.0" mnemonicParsing="false" onAction="#addProject" prefHeight="46.0" prefWidth="132.0" text="ADD PROJECT" />
+      <Button fx:id="addProjectAddButton" layoutX="203.0" layoutY="319.0" mnemonicParsing="false" onAction="#addProject" prefHeight="46.0" prefWidth="132.0" style="-fx-background-color: #03203C;" text="ADD PROJECT" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label layoutX="206.0" layoutY="2.0" text="Add new Project">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
