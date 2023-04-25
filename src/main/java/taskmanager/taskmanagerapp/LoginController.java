@@ -7,8 +7,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -42,9 +40,8 @@ public class LoginController {
         if (!FormPassword.isEmpty() && !FormUsername.isEmpty()) {
 
 
-
             UsersModel CheckLoginDetails = new UsersModel();
-            ResultSet result = CheckLoginDetails.checkUserLogin(FormUsername,FormPassword);
+            ResultSet result = CheckLoginDetails.checkUserLogin(FormUsername, FormPassword);
             // print username
             if (result.next()) {
 
@@ -53,13 +50,16 @@ public class LoginController {
                 System.out.println(result.getString("username"));
 
 
-
             } else {
                 lgStatus.setText("Incorrect Login Details.");
+
             }
+
+            result.close();
 
         } else {
             lgStatus.setText("Ensure all fields are filled in.");
+
         }
 
     }

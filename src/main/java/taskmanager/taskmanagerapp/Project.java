@@ -1,7 +1,5 @@
 package taskmanager.taskmanagerapp;
 
-import javafx.scene.control.Button;
-
 public class Project {
 
     private final String title;
@@ -13,7 +11,6 @@ public class Project {
     private final String status;
 
     private final Integer id;
-
 
 
     public Project(Integer id, String title, String description, String created, String deadline, String status) {

@@ -7,7 +7,9 @@ import java.sql.SQLException;
 
 public class UsersModel {
 
-    public ResultSet checkUserLogin(String FormUsername,String FormPassword) throws SQLException {
+    public ResultSet checkUserLogin(String FormUsername, String FormPassword) throws SQLException {
+
+
         Connection connection = DBConnection.Connector();
 
         PreparedStatement getUsers = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?");
@@ -15,9 +17,9 @@ public class UsersModel {
         getUsers.setString(2, FormPassword);
 
 
-        ResultSet results =getUsers.executeQuery();
+        ResultSet results = getUsers.executeQuery();
 
-        connection.close();
+
         // grab results from db
 
         return results;

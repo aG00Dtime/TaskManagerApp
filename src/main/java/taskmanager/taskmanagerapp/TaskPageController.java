@@ -1,6 +1,5 @@
 package taskmanager.taskmanagerapp;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +16,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -75,7 +71,7 @@ public class TaskPageController implements Initializable {
     @FXML
     private TextField taskSearchField;
 
-    public void getProjectId(Integer id){
+    public void getProjectId(Integer id) {
 
         projectId = id;
         refreshTaskList();
@@ -115,18 +111,15 @@ public class TaskPageController implements Initializable {
     }
 
 
-
-
-
-
-    public void getSearchresults(){
+    public void getSearchresults() {
 
         TaskModel SearchTasks = new TaskModel();
-        ObservableList<Task> projectTasks = SearchTasks.SearchTasks(projectId,taskSearchField.getText());
+        ObservableList<Task> projectTasks = SearchTasks.SearchTasks(projectId, taskSearchField.getText());
         taskTable.setItems(projectTasks);
 
     }
-    public void refreshTaskList(){
+
+    public void refreshTaskList() {
 
         TaskModel getNewTasks = new TaskModel();
 
@@ -136,7 +129,7 @@ public class TaskPageController implements Initializable {
     }
 
 
-    public void deleteTask(Integer id){
+    public void deleteTask(Integer id) {
 
         System.out.println(id);
 
@@ -243,7 +236,7 @@ public class TaskPageController implements Initializable {
                             }
                     );
                     //add new buttons to cell
-                    HBox actionButtons = new HBox(editButton,deleteButton);
+                    HBox actionButtons = new HBox(editButton, deleteButton);
                     actionButtons.setStyle("-fx-alignment:center");
                     HBox.setMargin(deleteButton, new Insets(2, 2, 0, 3));
                     HBox.setMargin(editButton, new Insets(2, 3, 0, 2));

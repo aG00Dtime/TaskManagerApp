@@ -2,16 +2,16 @@ package taskmanager.taskmanagerapp;
 
 public class Task {
 
-    private Integer id;
-    private Integer projectId;
+    private final Integer id;
+    private final Integer projectId;
 
-    private String title;
-    private String description;
-    private String created;
-    private String updated;
-    private String deadline;
-    private String assigned;
-    private String status;
+    private final String title;
+    private final String description;
+    private final String created;
+    private final String updated;
+    private final String deadline;
+    private final String assigned;
+    private final String status;
 
     public Task(Integer id, Integer projectId,
                 String title, String description,

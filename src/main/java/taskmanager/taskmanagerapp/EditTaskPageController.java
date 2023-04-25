@@ -6,29 +6,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class EditTaskPageController implements Initializable  {
+public class EditTaskPageController implements Initializable {
+    private final ObservableList<String> projectStatusList = FXCollections.observableArrayList(
+            "In Progress",
+            "On hold",
+            "Cancelled",
+            "Completed");
     public Button taskUpdateButton;
     public TextField taskTitle;
     public TextArea taskDescription;
     public DatePicker taskDeadline;
-    public ComboBox taskAssignMemberList;
-    public ComboBox taskStatusBox;
-
+    public ComboBox<String> taskAssignMemberList;
+    public ComboBox<String> taskStatusBox;
     public Integer taskID;
-    private String oldTitle,oldDescription,oldProjectDeadline,oldStatus,oldAssigned;
-
+    private String oldTitle, oldDescription, oldProjectDeadline, oldStatus, oldAssigned;
     private ObservableList<String> newMemList;
 
-    public void fillFields(Integer id, String title, String description, String deadline,String assigned, String status) throws Exception {
+    public void fillFields(Integer id, String title, String description, String deadline, String assigned, String status) throws Exception {
 
 
         taskID = id;
@@ -46,9 +45,10 @@ public class EditTaskPageController implements Initializable  {
         oldStatus = status;
 
         taskAssignMemberList.setValue(assigned);
-        oldAssigned=assigned;
+        oldAssigned = assigned;
 
     }
+
     public void updateProject() {
 
         // check if anything changes
@@ -82,8 +82,8 @@ public class EditTaskPageController implements Initializable  {
                             taskTitle.getText(),
                             taskDescription.getText(),
                             taskDeadline.getValue().toString(),
-                            taskStatusBox.getValue().toString(),
-                            taskAssignMemberList.getValue().toString()
+                            taskStatusBox.getValue(),
+                            taskAssignMemberList.getValue()
                     );
 
 
@@ -95,7 +95,7 @@ public class EditTaskPageController implements Initializable  {
                     oldTitle = taskTitle.getText();
                     oldDescription = taskDescription.getText();
                     oldProjectDeadline = String.valueOf(taskDeadline.getValue());
-                    oldStatus = (String) taskStatusBox.getValue();
+                    oldStatus = taskStatusBox.getValue();
 
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -103,20 +103,12 @@ public class EditTaskPageController implements Initializable  {
             }
         }
     }
-    private final ObservableList<String> projectStatusList = FXCollections.observableArrayList(
-            "In Progress",
-            "On hold",
-            "Cancelled",
-            "Completed");
 
-
-
-
-    public void setMemberList(Integer pId){
+    public void setMemberList(Integer pId) {
 
         TaskModel newMemberList = new TaskModel();
 
-        newMemList=newMemberList.getMemberList(pId);
+        newMemList = newMemberList.getMemberList(pId);
         taskAssignMemberList.setItems(newMemList);
     }
 

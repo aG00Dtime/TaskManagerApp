@@ -11,6 +11,7 @@ public class Users {
         this.email = email;
 
     }
+
     public String getUsername() {
 
         return username;
@@ -19,4 +20,6 @@ public class Users {
     public String getEmail() {
         return email;
     }
+
+
 }

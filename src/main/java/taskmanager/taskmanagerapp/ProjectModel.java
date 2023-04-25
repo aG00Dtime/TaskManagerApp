@@ -12,7 +12,7 @@ import java.time.ZoneId;
 
 public class ProjectModel {
 
-    public void createProject(String title,String desc,String date) throws SQLException {
+    public void createProject(String title, String desc, String date) throws SQLException {
         // get curr date
         LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
 
@@ -31,7 +31,7 @@ public class ProjectModel {
         connection.close();
     }
 
-    public  ObservableList<Users> getProjectMembers(Integer pID) {
+    public ObservableList<Users> getProjectMembers(Integer pID) {
 
 
         // create list of projects for table insertion
@@ -68,8 +68,7 @@ public class ProjectModel {
     }
 
 
-
-    public ResultSet getProjects () throws SQLException {
+    public ResultSet getProjects() throws SQLException {
 
         Connection connection = DBConnection.Connector();
 
@@ -86,10 +85,8 @@ public class ProjectModel {
     public ResultSet searchProject(String title) throws SQLException {
 
         Connection connection = DBConnection.Connector();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT where title LIKE '%"+title+"%'");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT where title LIKE '%" + title + "%'");
         ResultSet results = statement.executeQuery();
-
-        connection.close();
 
         return results;
 
@@ -100,7 +97,7 @@ public class ProjectModel {
         Connection connection = DBConnection.Connector();
 
         // enable foreign keys to enable cascade
-        String statement = "PRAGMA foreign_keys = ON" ;
+        String statement = "PRAGMA foreign_keys = ON";
         PreparedStatement pStatement = connection.prepareStatement(statement);
         pStatement.execute();
 
@@ -113,7 +110,7 @@ public class ProjectModel {
 
     }
 
-    public void deleteProjectMembers(Integer projectID,String username) throws SQLException {
+    public void deleteProjectMembers(Integer projectID, String username) throws SQLException {
 
         String statement = "DELETE FROM PROJECTMEMBERS WHERE PROJECTID = ? AND USERNAME = ?";
 
@@ -134,7 +131,7 @@ public class ProjectModel {
 
     }
 
-    public void addNewMember(Integer id,String user) throws SQLException {
+    public void addNewMember(Integer id, String user) throws SQLException {
 
         String statement = "REPLACE INTO projectMembers (projectId,username) VALUES ( ? , ? )";
 

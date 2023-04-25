@@ -171,7 +171,7 @@ public class EditProjectController implements Initializable {
         if (result.get() == ButtonType.OK) {
 
             ProjectModel addMemberNew = new ProjectModel();
-            addMemberNew.addNewMember(projectID,projectUserList.getValue());
+            addMemberNew.addNewMember(projectID, projectUserList.getValue());
 
             projectUserList.getSelectionModel().clearSelection();
 
@@ -199,6 +199,7 @@ public class EditProjectController implements Initializable {
         teamTable.setItems(memberList);
 
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -246,10 +247,10 @@ public class EditProjectController implements Initializable {
                             if (result.get() == ButtonType.OK) {
 
 
-                                try{
+                                try {
 
                                     ProjectModel deleteMember = new ProjectModel();
-                                    deleteMember.deleteProjectMembers(projectID,user.getUsername());
+                                    deleteMember.deleteProjectMembers(projectID, user.getUsername());
 
                                     projectUserList.getSelectionModel().clearSelection();
 
@@ -257,9 +258,8 @@ public class EditProjectController implements Initializable {
                                     alertSuccess.initModality(Modality.APPLICATION_MODAL);
                                     alertSuccess.setHeaderText("Success!");
                                     alertSuccess.setContentText("Removed Member!");
-                                    alertSuccess.show();}
-
-                                catch (SQLException e) {
+                                    alertSuccess.show();
+                                } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
 

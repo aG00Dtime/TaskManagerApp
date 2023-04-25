@@ -12,7 +12,7 @@ import java.time.ZoneId;
 
 public class TaskModel {
 
-    public void addTask(Integer projectId,String title,String desc,String date) throws SQLException {
+    public void addTask(Integer projectId, String title, String desc, String date) throws SQLException {
 
         // get curr date
         LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
@@ -40,7 +40,7 @@ public class TaskModel {
 
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId =" +projectId.toString() );
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId =" + projectId.toString());
             ResultSet results = statement.executeQuery();
 
             while (results.next()) {
@@ -66,7 +66,7 @@ public class TaskModel {
 
     }
 
-    public  ObservableList<Task> SearchTasks(Integer projectId,String taskTitle) {
+    public ObservableList<Task> SearchTasks(Integer projectId, String taskTitle) {
 
         Connection connection = DBConnection.Connector();
 
@@ -75,8 +75,8 @@ public class TaskModel {
 
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId = " +projectId.toString()
-                    + " AND TITLE LIKE '%"+taskTitle+ "%'" );
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId = " + projectId.toString()
+                    + " AND TITLE LIKE '%" + taskTitle + "%'");
             ResultSet results = statement.executeQuery();
 
             while (results.next()) {
@@ -103,17 +103,16 @@ public class TaskModel {
     }
 
 
-
     public void deleteTask(Integer taskID) throws SQLException {
 
         Connection connection = DBConnection.Connector();
 
         // enable foreign keys to enable cascade
-        String statement = "PRAGMA foreign_keys = ON" ;
+        String statement = "PRAGMA foreign_keys = ON";
         PreparedStatement pStatement = connection.prepareStatement(statement);
         pStatement.execute();
 
-        statement = "DELETE FROM TASKS WHERE ID =" +taskID;
+        statement = "DELETE FROM TASKS WHERE ID =" + taskID;
         pStatement = connection.prepareStatement(statement);
         pStatement.executeUpdate();
 
@@ -122,8 +121,8 @@ public class TaskModel {
 
     }
 
-    public void updateTask(Integer taskID,String taskTitle,String taskDescription
-    ,String taskDeadline,String taskStatusBox,String taskAssignMemberList) throws SQLException {
+    public void updateTask(Integer taskID, String taskTitle, String taskDescription
+            , String taskDeadline, String taskStatusBox, String taskAssignMemberList) throws SQLException {
         String statement = "UPDATE TASKS SET title = ?,description = ?,deadline = ?,status= ?,assignedTo =? ,updated=?  WHERE ID = " + taskID.toString();
 
         Connection connection = DBConnection.Connector();
@@ -135,7 +134,7 @@ public class TaskModel {
         pStatement.setString(1, taskTitle);
         pStatement.setString(2, taskDescription);
         pStatement.setString(3, taskDeadline);
-        pStatement.setString(4,  taskStatusBox);
+        pStatement.setString(4, taskStatusBox);
         pStatement.setString(5, taskAssignMemberList);
         pStatement.setString(6, String.valueOf(today));
 
@@ -172,7 +171,6 @@ public class TaskModel {
 //        System.out.println(pId + "from edit task page member observer list");
         return list;
     }
-
 
 
 }

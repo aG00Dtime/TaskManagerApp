@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,8 +18,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -28,40 +25,29 @@ import java.util.ResourceBundle;
 
 public class ProjectPageController implements Initializable {
 
+    public String searchTerm;
     @FXML
     private Button prNewProjectButton;
-
     @FXML
     private Button prSearchButton;
-
     @FXML
     private TextField prSearchTextField;
-
     @FXML
     private TableColumn<Project, String> projectActions;
-
     @FXML
     private TableColumn<Project, String> projectCreated;
-
     @FXML
     private TableColumn<Project, String> projectDeadline;
-
     @FXML
     private TableColumn<Project, String> projectDescription;
-
     @FXML
     private TableColumn<Project, Integer> projectId;
-
     @FXML
     private TableColumn<Project, String> projectName;
-
     @FXML
     private TableColumn<Project, String> projectStatus;
-
     @FXML
     private TableView<Project> projectsListTable;
-
-    public String searchTerm;
 
     public static ObservableList<Project> getProject() {
 
@@ -85,6 +71,33 @@ public class ProjectPageController implements Initializable {
                         results.getString("status")));
             }
 
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+
+    }
+
+    public static ObservableList<Project> searchProject(String title) {
+
+        // create list of projects for table insertion
+        ObservableList<Project> list = FXCollections.observableArrayList();
+
+        try {
+            ProjectModel projectList = new ProjectModel();
+            ResultSet results = projectList.searchProject(title);
+
+            while (results.next()) {
+                list.add(new Project(
+                        Integer.parseInt(results.getString("id")),
+                        results.getString("title"),
+                        results.getString("description"),
+                        results.getString("created"),
+                        results.getString("deadline"),
+                        results.getString("status")));
+            }
 
 
         } catch (SQLException e) {
@@ -116,36 +129,7 @@ public class ProjectPageController implements Initializable {
 
     }
 
-    public static ObservableList<Project> searchProject(String title) {
-
-        // create list of projects for table insertion
-        ObservableList<Project> list = FXCollections.observableArrayList();
-
-        try {
-            ProjectModel projectList = new ProjectModel();
-            ResultSet results = projectList.searchProject(title);
-
-            while (results.next()) {
-                list.add(new Project(
-                        Integer.parseInt(results.getString("id")),
-                        results.getString("title"),
-                        results.getString("description"),
-                        results.getString("created"),
-                        results.getString("deadline"),
-                        results.getString("status")));
-            }
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-
-    }
-
-    public void GetSearchResults(){
+    public void GetSearchResults() {
 
         searchTerm = prSearchTextField.getText();
 
@@ -193,39 +177,39 @@ public class ProjectPageController implements Initializable {
                     tasksButton.setOnAction(event -> {
 
 
-                                // open the editing page and
-                                Project project = getTableView().getItems().get(getIndex());
+                        // open the editing page and
+                        Project project = getTableView().getItems().get(getIndex());
 
-                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TaskPage.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TaskPage.fxml"));
 
-                                Parent parent;
-                                try {
-                                    parent = fxmlLoader.load();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                //DONE: pass project id to page
+                        Parent parent;
+                        try {
+                            parent = fxmlLoader.load();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        //DONE: pass project id to page
 
                         // pass values
-                            TaskPageController passProjectId = fxmlLoader.getController();
-                            try {
-                                passProjectId.getProjectId(
-                                        project.getId()
-                                        );
+                        TaskPageController passProjectId = fxmlLoader.getController();
+                        try {
+                            passProjectId.getProjectId(
+                                    project.getId()
+                            );
 
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
 
-                                Stage stage = new Stage();
-                                stage.initModality(Modality.APPLICATION_MODAL);
-                                stage.setTitle("Manage Tasks ");
-                                stage.setResizable(false);
-                                stage.setScene(new Scene(parent, 950, 600));
-                                stage.centerOnScreen();
-                                stage.show();
+                        Stage stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Manage Tasks ");
+                        stage.setResizable(false);
+                        stage.setScene(new Scene(parent, 950, 600));
+                        stage.centerOnScreen();
+                        stage.show();
 
-                            });
+                    });
 
                     // trigger edit
                     editButton.setOnAction(event -> {
@@ -300,7 +284,7 @@ public class ProjectPageController implements Initializable {
                     );
 
                     //add new buttons to cell
-                    HBox actionButtons = new HBox(editButton, tasksButton,deleteButton);
+                    HBox actionButtons = new HBox(editButton, tasksButton, deleteButton);
                     actionButtons.setStyle("-fx-alignment:center");
                     HBox.setMargin(deleteButton, new Insets(2, 2, 0, 3));
                     HBox.setMargin(editButton, new Insets(2, 3, 0, 2));

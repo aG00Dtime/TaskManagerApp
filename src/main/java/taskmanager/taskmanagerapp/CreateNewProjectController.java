@@ -1,17 +1,12 @@
 package taskmanager.taskmanagerapp;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 public class CreateNewProjectController {
 
@@ -43,7 +38,7 @@ public class CreateNewProjectController {
         } else {
 
             ProjectModel addNewProject = new ProjectModel();
-            addNewProject.createProject(title,desc,date);
+            addNewProject.createProject(title, desc, date);
 
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setHeaderText("Success!");
