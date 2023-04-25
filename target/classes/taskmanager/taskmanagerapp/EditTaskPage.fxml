@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="416.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.EditTaskPageController">
+    <children>
+        <Button fx:id="taskUpdateButton" layoutX="279.0" layoutY="341.0" mnemonicParsing="false" onAction="#updateProject" prefHeight="35.0" prefWidth="136.0" style="-fx-background-color: #03203C;" text="UPDATE" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Label layoutX="42.0" layoutY="44.0" text="Title">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="42.0" layoutY="102.0" text="Description">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="42.0" layoutY="158.0" text="Deadline">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="taskTitle" layoutX="128.0" layoutY="36.0" prefHeight="35.0" prefWidth="458.0" />
+        <TextArea fx:id="taskDescription" layoutX="128.0" layoutY="85.0" prefHeight="53.0" prefWidth="458.0" />
+        <DatePicker fx:id="taskDeadline" layoutX="128.0" layoutY="155.0" prefHeight="35.0" prefWidth="174.0" />
+        <ComboBox fx:id="taskAssignMemberList" layoutX="128.0" layoutY="269.0" prefHeight="35.0" prefWidth="136.0" promptText="Select A User" />
+        <Label layoutX="296.0" layoutY="1.0" text="Task Details">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="taskStatusBox" layoutX="128.0" layoutY="211.0" prefHeight="35.0" prefWidth="136.0" promptText="Update Status" />
+        <Label layoutX="43.0" layoutY="219.0" text="Status">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+      <Label layoutX="43.0" layoutY="277.0" text="Assign">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>
