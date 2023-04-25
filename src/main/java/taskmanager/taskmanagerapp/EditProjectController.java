@@ -76,8 +76,6 @@ public class EditProjectController implements Initializable {
         return list;
     }
 
-
-
     public void fillFields(Integer id, String title, String description, String deadline, String status) throws Exception {
 
         projectID = id;

@@ -7,8 +7,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class ProjectModel {
+
+    public void createProject(String title,String desc,String date) throws SQLException {
+        // get curr date
+        LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
+
+
+        String statement = " INSERT INTO PROJECT (title,description,created,deadline) VALUES ( ? , ? , ? , ?)";
+        Connection connection = DBConnection.Connector();
+        PreparedStatement pStatement = connection.prepareStatement(statement);
+
+        pStatement.setString(1, title);
+        pStatement.setString(2, desc);
+        pStatement.setString(3, String.valueOf(today));
+        pStatement.setString(4, date);
+
+        pStatement.executeUpdate();
+
+        connection.close();
+    }
 
     public  ObservableList<Users> getProjectMembers(Integer pID) {
 
@@ -55,6 +76,8 @@ public class ProjectModel {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT");
         ResultSet results = statement.executeQuery();
 
+//        connection.close();
+
         return results;
 
 
@@ -65,6 +88,8 @@ public class ProjectModel {
         Connection connection = DBConnection.Connector();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT where title LIKE '%"+title+"%'");
         ResultSet results = statement.executeQuery();
+
+        connection.close();
 
         return results;
 

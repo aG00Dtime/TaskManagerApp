@@ -15,8 +15,11 @@ public class UsersModel {
         getUsers.setString(2, FormPassword);
 
 
+        ResultSet results =getUsers.executeQuery();
+
+        connection.close();
         // grab results from db
 
-        return getUsers.executeQuery();
+        return results;
     }
 }

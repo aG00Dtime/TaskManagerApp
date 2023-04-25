@@ -42,22 +42,8 @@ public class CreateNewProjectController {
 
         } else {
 
-            // get curr date
-            LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
-
-
-            String statement = " INSERT INTO PROJECT (title,description,created,deadline) VALUES ( ? , ? , ? , ?)";
-            Connection connection = DBConnection.Connector();
-            PreparedStatement pStatement = connection.prepareStatement(statement);
-
-            pStatement.setString(1, title);
-            pStatement.setString(2, desc);
-            pStatement.setString(3, String.valueOf(today));
-            pStatement.setString(4, date);
-
-            pStatement.executeUpdate();
-
-            connection.close();
+            ProjectModel addNewProject = new ProjectModel();
+            addNewProject.createProject(title,desc,date);
 
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setHeaderText("Success!");
