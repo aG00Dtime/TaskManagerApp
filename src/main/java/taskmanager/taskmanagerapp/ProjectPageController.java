@@ -61,7 +61,7 @@ public class ProjectPageController implements Initializable {
     @FXML
     private TableView<Project> projectsListTable;
 
-
+    public String searchTerm;
 
     public static ObservableList<Project> getProject() {
 
@@ -112,6 +112,46 @@ public class ProjectPageController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public static ObservableList<Project> searchProject(String title) {
+
+        Connection connection = DBConnection.Connector();
+
+        // create list of projects for table insertion
+        ObservableList<Project> list = FXCollections.observableArrayList();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT where title LIKE '%"+title+"%'");
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                list.add(new Project(
+                        Integer.parseInt(results.getString("id")),
+                        results.getString("title"),
+                        results.getString("description"),
+                        results.getString("created"),
+                        results.getString("deadline"),
+                        results.getString("status")));
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+
+    }
+
+    public void GetSearchResults(){
+
+        searchTerm = prSearchTextField.getText();
+
+        ObservableList<Project> projectList = searchProject(searchTerm);
+        projectsListTable.setItems(projectList);
 
     }
 

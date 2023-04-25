@@ -45,6 +45,7 @@ public class CreateNewProjectController {
             // get curr date
             LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
 
+
             String statement = " INSERT INTO PROJECT (title,description,created,deadline) VALUES ( ? , ? , ? , ?)";
             Connection connection = DBConnection.Connector();
             PreparedStatement pStatement = connection.prepareStatement(statement);

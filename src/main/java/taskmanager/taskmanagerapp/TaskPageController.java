@@ -72,6 +72,9 @@ public class TaskPageController implements Initializable {
     @FXML
     private TableColumn<Task, String> taskTableUpdated;
 
+    @FXML
+    private TextField taskSearchField;
+
     public void getProjectId(Integer id){
 
         projectId = id;
@@ -109,7 +112,6 @@ public class TaskPageController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public  ObservableList<Task> getTasks() {
@@ -148,10 +150,96 @@ public class TaskPageController implements Initializable {
     }
 
 
+    public  ObservableList<Task> SearchTasks(String taskTitle) {
+
+        Connection connection = DBConnection.Connector();
+
+        // create list of projects for table insertion
+        ObservableList<Task> list = FXCollections.observableArrayList();
+
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId = " +projectId.toString()
+                    + " AND TITLE LIKE '%"+taskTitle+ "%'" );
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                list.add(new Task(
+                        Integer.parseInt(results.getString("id")),
+                        Integer.parseInt(results.getString("projectId")),
+                        results.getString("title"),
+                        results.getString("description"),
+                        results.getString("created"),
+                        results.getString("updated"),
+                        results.getString("deadline"),
+                        results.getString("assignedTo"),
+                        results.getString("status")));
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+
+    }
+
+    public void getSearchresults(){
+
+
+        ObservableList<Task> projectTasks = SearchTasks(taskSearchField.getText());
+        taskTable.setItems(projectTasks);
+
+    }
     public void refreshTaskList(){
 
         ObservableList<Task> projectTasks = getTasks();
         taskTable.setItems(projectTasks);
+
+    }
+
+
+    public void deleteTask(Integer id){
+
+        System.out.println(id);
+
+        // confirmation dialogue
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+
+        alert.getDialogPane().setHeaderText("Delete?");
+        alert.getDialogPane().setContentText("Are you sure you want to delete this task?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+
+            try {
+
+                Connection connection = DBConnection.Connector();
+
+                // enable foreign keys to enable cascade
+                String statement = "PRAGMA foreign_keys = ON" ;
+                PreparedStatement pStatement = connection.prepareStatement(statement);
+                pStatement.execute();
+
+                statement = "DELETE FROM TASKS WHERE ID =" +id;
+                pStatement = connection.prepareStatement(statement);
+                pStatement.executeUpdate();
+
+                connection.close();
+
+                refreshTaskList();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
 
     }
 
@@ -183,7 +271,6 @@ public class TaskPageController implements Initializable {
 
                     // trigger edit
                     editButton.setOnAction(event -> {
-
 
                         // open the editing page and
                         Task task = getTableView().getItems().get(getIndex());
@@ -224,20 +311,14 @@ public class TaskPageController implements Initializable {
                         stage.centerOnScreen();
                         stage.show();
 
-
                     });
                     //trigger delete
                     deleteButton.setOnAction(event -> {
-
-
-
                                 Task task = getTableView().getItems().get(getIndex());
-
-
+                                deleteTask(task.getId());
 
                             }
                     );
-
                     //add new buttons to cell
                     HBox actionButtons = new HBox(editButton,deleteButton);
                     actionButtons.setStyle("-fx-alignment:center");
@@ -254,7 +335,6 @@ public class TaskPageController implements Initializable {
 
         // add custom buttons to action cell
         taskTableActions.setCellFactory(cellFactory);
-
 
     }
 

@@ -22,7 +22,7 @@
         </columns>
       </TableView>
       <TextField fx:id="prSearchTextField" layoutX="21.0" layoutY="117.0" prefHeight="48.0" prefWidth="726.0" />
-      <Button fx:id="prSearchButton" layoutX="759.0" layoutY="117.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="120.0" style="-fx-background-color: #03203C;" text="SEARCH" textFill="WHITE">
+      <Button fx:id="prSearchButton" layoutX="759.0" layoutY="117.0" mnemonicParsing="false" onAction="#GetSearchResults" prefHeight="48.0" prefWidth="120.0" style="-fx-background-color: #03203C;" text="SEARCH" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>

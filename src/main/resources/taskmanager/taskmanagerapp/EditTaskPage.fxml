@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="416.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="taskmanager.taskmanagerapp.EditTaskPageController">
     <children>
-        <Button fx:id="taskUpdateButton" layoutX="279.0" layoutY="341.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="136.0" style="-fx-background-color: #03203C;" text="UPDATE" textFill="WHITE">
+        <Button fx:id="taskUpdateButton" layoutX="279.0" layoutY="341.0" mnemonicParsing="false" onAction="#updateProject" prefHeight="35.0" prefWidth="136.0" style="-fx-background-color: #03203C;" text="UPDATE" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
