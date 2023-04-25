@@ -76,41 +76,7 @@ public class EditProjectController implements Initializable {
         return list;
     }
 
-    public static ObservableList<Users> getProjectMembers(Integer pID) {
 
-
-        // create list of projects for table insertion
-        ObservableList<Users> memberList = FXCollections.observableArrayList();
-
-        try {
-            Connection connection = DBConnection.Connector();
-            // need to do join
-            String statementSQL = "SELECT users.username,users.email FROM users " +
-                    "INNER JOIN projectMembers " +
-                    "ON users.username = projectMembers.username " +
-                    "WHERE projectMembers.projectId = " + pID.toString();
-
-            PreparedStatement statement = connection.prepareStatement(statementSQL);
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-                memberList.add(new Users(
-                        results.getString("username"),
-                        results.getString("email")
-                ));
-
-
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return memberList;
-
-    }
 
     public void fillFields(Integer id, String title, String description, String deadline, String status) throws Exception {
 
@@ -206,17 +172,8 @@ public class EditProjectController implements Initializable {
 
         if (result.get() == ButtonType.OK) {
 
-            String statement = "REPLACE INTO projectMembers (projectId,username) VALUES ( ? , ? )";
-
-            Connection connection = DBConnection.Connector();
-            PreparedStatement pStatement = connection.prepareStatement(statement);
-
-            pStatement.setString(1, String.valueOf(projectID));
-            pStatement.setString(2, projectUserList.getValue());
-
-            pStatement.executeUpdate();
-
-            connection.close();
+            ProjectModel addMemberNew = new ProjectModel();
+            addMemberNew.addNewMember(projectID,projectUserList.getValue());
 
             projectUserList.getSelectionModel().clearSelection();
 
@@ -239,7 +196,8 @@ public class EditProjectController implements Initializable {
 
     public void refreshMemberList(Integer PID) {
 
-        ObservableList<Users> memberList = getProjectMembers(PID);
+        ProjectModel modelMemberList = new ProjectModel();
+        ObservableList<Users> memberList = modelMemberList.getProjectMembers(PID);
         teamTable.setItems(memberList);
 
     }
@@ -292,22 +250,8 @@ public class EditProjectController implements Initializable {
 
                                 try{
 
-                                    String statement = "DELETE FROM PROJECTMEMBERS WHERE PROJECTID = ? AND USERNAME = ?";
-
-                                    Connection connection = DBConnection.Connector();
-                                    PreparedStatement pStatement = null;
-
-                                    pStatement = connection.prepareStatement(statement);
-
-                                    pStatement.setString(1, String.valueOf(projectID));
-
-                                    pStatement.setString(2, String.valueOf(user.getUsername()));
-
-                                    pStatement.executeUpdate();
-
-
-                                    connection.close();
-
+                                    ProjectModel deleteMember = new ProjectModel();
+                                    deleteMember.deleteProjectMembers(projectID,user.getUsername());
 
                                     projectUserList.getSelectionModel().clearSelection();
 

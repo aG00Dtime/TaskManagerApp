@@ -65,14 +65,15 @@ public class ProjectPageController implements Initializable {
 
     public static ObservableList<Project> getProject() {
 
-        Connection connection = DBConnection.Connector();
 
         // create list of projects for table insertion
         ObservableList<Project> list = FXCollections.observableArrayList();
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT");
-            ResultSet results = statement.executeQuery();
+            ProjectModel projectList = new ProjectModel();
+            ResultSet results = projectList.getProjects();
+//            PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT");
+//            ResultSet results = statement.executeQuery();
 
             while (results.next()) {
                 list.add(new Project(
@@ -84,7 +85,7 @@ public class ProjectPageController implements Initializable {
                         results.getString("status")));
             }
 
-            connection.close();
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -117,14 +118,12 @@ public class ProjectPageController implements Initializable {
 
     public static ObservableList<Project> searchProject(String title) {
 
-        Connection connection = DBConnection.Connector();
-
         // create list of projects for table insertion
         ObservableList<Project> list = FXCollections.observableArrayList();
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM PROJECT where title LIKE '%"+title+"%'");
-            ResultSet results = statement.executeQuery();
+            ProjectModel projectList = new ProjectModel();
+            ResultSet results = projectList.searchProject(title);
 
             while (results.next()) {
                 list.add(new Project(
@@ -136,7 +135,7 @@ public class ProjectPageController implements Initializable {
                         results.getString("status")));
             }
 
-            connection.close();
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -287,20 +286,10 @@ public class ProjectPageController implements Initializable {
 
                                     try {
 
-                                        Connection connection = DBConnection.Connector();
+                                        ProjectModel deleteFunc = new ProjectModel();
+                                        deleteFunc.deleteProject(project.getId());
 
-                                        // enable foreign keys to enable cascade
-                                        String statement = "PRAGMA foreign_keys = ON" ;
-                                        PreparedStatement pStatement = connection.prepareStatement(statement);
-                                        pStatement.execute();
-
-                                        statement = "DELETE FROM PROJECT WHERE ID =" + project.getId();
-                                        pStatement = connection.prepareStatement(statement);
-                                        pStatement.executeUpdate();
-
-                                        connection.close();
-
-                                        // refresh project list after operation
+//
                                         refreshProjects();
 
                                     } catch (SQLException e) {

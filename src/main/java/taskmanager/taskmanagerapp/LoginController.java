@@ -41,23 +41,17 @@ public class LoginController {
 
         if (!FormPassword.isEmpty() && !FormUsername.isEmpty()) {
 
-            // connect to db
-            Connection connection = DBConnection.Connector();
-
-            PreparedStatement getUsers = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?");
-            getUsers.setString(1, FormUsername);
-            getUsers.setString(2, FormPassword);
-            // grab results from db
-            ResultSet result = getUsers.executeQuery();
 
 
+            UsersModel CheckLoginDetails = new UsersModel();
+            ResultSet result = CheckLoginDetails.checkUserLogin(FormUsername,FormPassword);
             // print username
             if (result.next()) {
 
                 Main main = new Main();
                 main.changeScene("ProjectPage.fxml", "Projects", 920, 710);
                 System.out.println(result.getString("username"));
-                connection.close();
+
 
 
             } else {

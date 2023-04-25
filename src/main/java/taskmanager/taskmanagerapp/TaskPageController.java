@@ -114,88 +114,23 @@ public class TaskPageController implements Initializable {
         }
     }
 
-    public  ObservableList<Task> getTasks() {
-
-        Connection connection = DBConnection.Connector();
-
-        // create list of projects for table insertion
-        ObservableList<Task> list = FXCollections.observableArrayList();
 
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId =" +projectId.toString() );
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-                list.add(new Task(
-                        Integer.parseInt(results.getString("id")),
-                        Integer.parseInt(results.getString("projectId")),
-                        results.getString("title"),
-                        results.getString("description"),
-                        results.getString("created"),
-                        results.getString("updated"),
-                        results.getString("deadline"),
-                        results.getString("assignedTo"),
-                        results.getString("status")));
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-
-    }
 
 
-    public  ObservableList<Task> SearchTasks(String taskTitle) {
-
-        Connection connection = DBConnection.Connector();
-
-        // create list of projects for table insertion
-        ObservableList<Task> list = FXCollections.observableArrayList();
-
-
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM TASKS WHERE projectId = " +projectId.toString()
-                    + " AND TITLE LIKE '%"+taskTitle+ "%'" );
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-                list.add(new Task(
-                        Integer.parseInt(results.getString("id")),
-                        Integer.parseInt(results.getString("projectId")),
-                        results.getString("title"),
-                        results.getString("description"),
-                        results.getString("created"),
-                        results.getString("updated"),
-                        results.getString("deadline"),
-                        results.getString("assignedTo"),
-                        results.getString("status")));
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-
-    }
 
     public void getSearchresults(){
 
-
-        ObservableList<Task> projectTasks = SearchTasks(taskSearchField.getText());
+        TaskModel SearchTasks = new TaskModel();
+        ObservableList<Task> projectTasks = SearchTasks.SearchTasks(projectId,taskSearchField.getText());
         taskTable.setItems(projectTasks);
 
     }
     public void refreshTaskList(){
 
-        ObservableList<Task> projectTasks = getTasks();
+        TaskModel getNewTasks = new TaskModel();
+
+        ObservableList<Task> projectTasks = getNewTasks.getTasks(projectId);
         taskTable.setItems(projectTasks);
 
     }
@@ -218,18 +153,8 @@ public class TaskPageController implements Initializable {
 
             try {
 
-                Connection connection = DBConnection.Connector();
-
-                // enable foreign keys to enable cascade
-                String statement = "PRAGMA foreign_keys = ON" ;
-                PreparedStatement pStatement = connection.prepareStatement(statement);
-                pStatement.execute();
-
-                statement = "DELETE FROM TASKS WHERE ID =" +id;
-                pStatement = connection.prepareStatement(statement);
-                pStatement.executeUpdate();
-
-                connection.close();
+                TaskModel deleteTask = new TaskModel();
+                deleteTask.deleteTask(id);
 
                 refreshTaskList();
 
@@ -238,8 +163,6 @@ public class TaskPageController implements Initializable {
             }
 
         }
-
-
 
     }
 

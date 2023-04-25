@@ -76,24 +76,16 @@ public class EditTaskPageController implements Initializable  {
 
                 try {
 
-                    String statement = "UPDATE TASKS SET title = ?,description = ?,deadline = ?,status= ?,assignedTo =? ,updated=?  WHERE ID = " + taskID.toString();
+                    TaskModel updateTask = new TaskModel();
+                    updateTask.updateTask(
+                            taskID,
+                            taskTitle.getText(),
+                            taskDescription.getText(),
+                            taskDeadline.getValue().toString(),
+                            taskStatusBox.getValue().toString(),
+                            taskAssignMemberList.getValue().toString()
+                    );
 
-                    Connection connection = DBConnection.Connector();
-                    PreparedStatement pStatement = connection.prepareStatement(statement);
-
-                    LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
-
-
-                    pStatement.setString(1, taskTitle.getText());
-                    pStatement.setString(2, taskDescription.getText());
-                    pStatement.setString(3, String.valueOf(taskDeadline.getValue()));
-                    pStatement.setString(4, (String) taskStatusBox.getValue());
-                    pStatement.setString(5, (String) taskAssignMemberList.getValue());
-                    pStatement.setString(6, String.valueOf(today));
-
-
-                    pStatement.executeUpdate();
-                    connection.close();
 
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setHeaderText("Success!");
@@ -118,36 +110,13 @@ public class EditTaskPageController implements Initializable  {
             "Completed");
 
 
-    public static ObservableList<String> getMemberList(Integer pId) {
 
-        Connection connection = DBConnection.Connector();
-
-        // create list of projects for table insertion
-        ObservableList<String> list = FXCollections.observableArrayList();
-
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT users.username FROM users " +
-                    "INNER JOIN projectMembers " +
-                    "ON users.username = projectMembers.username " +
-                    "WHERE projectMembers.projectId = " + pId.toString());
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-                list.add((results.getString("username")));
-//                System.out.println(results.getString("username"));
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-//        System.out.println(pId + "from edit task page member observer list");
-        return list;
-    }
 
     public void setMemberList(Integer pId){
-        newMemList=(getMemberList(pId));
+
+        TaskModel newMemberList = new TaskModel();
+
+        newMemList=newMemberList.getMemberList(pId);
         taskAssignMemberList.setItems(newMemList);
     }
 

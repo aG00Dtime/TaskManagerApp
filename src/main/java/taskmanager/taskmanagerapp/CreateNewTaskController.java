@@ -49,21 +49,9 @@ public class CreateNewTaskController {
 
         } else {
 
-            // get curr date
-            LocalDate today = LocalDate.now(ZoneId.of("America/Guyana"));
 
-            String statement = " INSERT INTO Tasks (projectId,title,description,created,deadline) VALUES ( ? , ? , ? , ?, ?)";
-            Connection connection = DBConnection.Connector();
-            PreparedStatement pStatement = connection.prepareStatement(statement);
-            pStatement.setString(1, String.valueOf(projectId));
-            pStatement.setString(2, title);
-            pStatement.setString(3, desc);
-            pStatement.setString(4, String.valueOf(today));
-            pStatement.setString(5, date);
-
-            pStatement.executeUpdate();
-
-            connection.close();
+            TaskModel addNewTask = new TaskModel();
+            addNewTask.addTask(projectId,title,desc,date);
 
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setHeaderText("Success!");
